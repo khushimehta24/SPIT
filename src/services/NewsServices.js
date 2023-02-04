@@ -14,4 +14,38 @@ const ex1 = () => {
     return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/data-discover')
 }
 
-export default { getNews, ex1 }
+const ex2 = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/data-discover2')
+}
+
+const ex3 = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/data-discover3')
+}
+
+const C2 = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/private')
+}
+
+const P2P = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/internalp2p')
+}
+
+const malwareControl = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/malware-control')
+}
+
+const infectedHost = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/infected-host')
+}
+const botnet = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/botnet-inside')
+}
+
+const lateralBrute = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/lateral-brute')
+}
+
+const lateralSpy = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/lateral-spy')
+}
+export default { getNews, ex1, ex2, ex3, C2, P2P,malwareControl,infectedHost,botnet,lateralBrute,lateralSpy }

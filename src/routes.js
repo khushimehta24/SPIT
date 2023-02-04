@@ -17,6 +17,15 @@ import Kanban from "./pages/Kanban"
 import LabTabs from './sections/@dashboard/tabs/Tabs';
 import Landingpage from './pages/Landingpage';
 import Ex1 from './pages/Detect/Ex1';
+import Ex2 from './pages/Detect/Ex2';
+import Ex3 from './pages/Detect/Ex3';
+import CandC from './pages/Detect/C&C';
+import P2P from './pages/Detect/P2P';
+import MalwareController from './pages/Detect/MalwareController';
+import Botnet from './pages/Detect/Botnet';
+import InfectedHost from './pages/Detect/InfectedHost';
+import LateralBrute from './pages/Detect/LateralBrute';
+import LateralSpy from './pages/Detect/LateralSpy';
 
 
 export default function Router() {
@@ -41,6 +50,15 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'exfiltration1', element: <Ex1 /> },
+        { path: 'exfiltration2', element: <Ex2 /> },
+        { path: 'exfiltration3', element: <Ex3 /> },
+        { path: 'C&C', element: <CandC /> },
+        { path: 'P2P', element: <P2P /> },
+        { path: 'malwarecontol', element: <MalwareController /> },
+        { path: 'botnet', element: <Botnet /> },
+        { path: 'infectedhost', element: <InfectedHost /> },
+        { path: 'lateralbrute', element: <LateralBrute /> },
+        { path: 'lateralspy', element: <LateralSpy /> },
         { path: 'user', element: <UserPage /> },
         { path: 'news', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
