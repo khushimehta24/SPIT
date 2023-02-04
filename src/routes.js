@@ -16,6 +16,7 @@ import CSVUploadPage from './pages/CSVUploadPage';
 import Kanban from "./pages/Kanban"
 import LabTabs from './sections/@dashboard/tabs/Tabs';
 import Landingpage from './pages/Landingpage';
+import Ex1 from './pages/Detect/Ex1';
 
 
 export default function Router() {
@@ -26,6 +27,20 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <Landingpage /> },
+        { path: 'user', element: <UserPage /> },
+        { path: 'news', element: <ProductsPage /> },
+        { path: 'blog', element: <BlogPage /> },
+        { path: 'scanbarcode', element: <LabTabs /> },
+        { path: 'schedule', element: <Kanban /> },
+        // {path : ''}
+      ],
+    },
+    {
+      path: '/detection',
+      element: <DashboardLayout />,
+      children: [
+        { element: <Navigate to="/dashboard/app" />, index: true },
+        { path: 'exfiltration1', element: <Ex1 /> },
         { path: 'user', element: <UserPage /> },
         { path: 'news', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },

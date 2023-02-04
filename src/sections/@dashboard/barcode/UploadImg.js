@@ -10,6 +10,9 @@ import {
     listAll,
     list,
 } from "firebase/storage";
+import { LoadingButton } from '@mui/lab';
+import { faker } from '@faker-js/faker';
+import NewsServices from '../../../services/NewsServices';
 import { storage } from "../../../firebase/config"
 import BarcodeService from '../../../services/BarcodeService';
 import AddProduct from '../app/AddProduct';
@@ -17,10 +20,11 @@ import Loader from '../../../helpers/Loader';
 import ProductServices from '../../../services/ProductServices';
 import { kpupContext } from '../../../context';
 import successHandler from '../../../helpers/successHandler';
+import { AppOrderTimeline, AppWebsiteVisits, AppWidgetSummary } from '../app';
 
 const AddBtn = {
     color: 'white', background: '#5DBAE8',
-    fontFamily: 'Poppins', padding: '0px 2.6%'
+    fontFamily: 'Poppins', padding: '0px 2.6rem', height: '100%'
 }
 function UploadImg() {
     const { token } = useContext(kpupContext)
@@ -29,19 +33,7 @@ function UploadImg() {
     const [editSinglePerson, setEditSinglePerson] = useState('Add');
     const [load, setLoad] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [json, setJson] = useState({
-        'id': new Date().getTime().toString(),
-        'name': '',
-        'desc': '',
-        'img': '',
-        "threshold": "40",
-        "restock": false,
-        'expiry_date': '',
-        'category': {
-            'name': ''
-        },
-        'costcount': (Array(Number(1)).fill("")),
-    })
+    const [json, setJson] = useState(null)
     const imagesListRef = ref(storage, "images/");
     const uploadFile = () => {
         setLoad(true)
@@ -51,75 +43,28 @@ function UploadImg() {
             getDownloadURL(snapshot.ref).then((url) => {
                 setImageUrls(url);
                 console.log(url);
-                getImageFileObject(url);
+                setLoad(true)
+                setLoading(false)
             });
         });
     };
 
-    async function getImageFileObject(img) {
-        const form2Data = new FormData()
-        form2Data.append('linkFile', img);
-        await BarcodeService.getBarcode(form2Data)
-            .then(async (res) => {
-                console.log(res);
-                await BarcodeService.getBarcodeDetails(res.data.data[0].allFields[0].fieldValue)
-                    .then((res) => {
-                        setJson({ ...json, 'name': res.data.products[0].title, 'img': res.data.products[0].images[0], 'desc': res.data.products[0].description })
-                        setLoad(false)
-
-                    })
-            })
-            .catch((e) => {
-                console.log(e)
-            })
-        // const res = await IpfsServices.uploadImg(form2Data, token)
-        // setJson({ ...json, bannerUri: res.data.urls[0] })
-        // console.log(res.data.urls[0])
-        // setImgLoad(false)
-    }
-    function runAfterImageDelete(file) {
-        console.log({ file })
-    }
-    const addProduct = async () => {
-        setLoading(true)
-        await ProductServices.addProducts(json, localStorage.getItem('kpupToken'))
-            .then((res) => {
-                console.log(res);
-                setLoading(false)
-                setJson({
-                    'id': new Date().getTime().toString(),
-                    'name': '',
-                    'desc': '',
-                    'img': '',
-                    "threshold": "40",
-                    "restock": false,
-                    'expiry_date': '',
-                    'category': {
-                        'name': ''
-                    },
-                    'costcount': (Array(Number(1)).fill("")),
+    useEffect(() => {
+        const getEx1 = async () => {
+            await NewsServices.ex1()
+                .then((res) => {
+                    console.log(res)
+                    setJson(res.data)
                 })
-                successHandler('Product Successfully added')
-            })
-    }
-    // useEffect(() => {
-    //     listAll(imagesListRef).then((response) => {
-    //         response.items.forEach((item) => {
-    //             getDownloadURL(item).then((url) => {
-    //                 setImageUrls(url);
-    //                 console.log(url)
-    //                 getImageFileObject(url);
-    //             });
-    //         });
-    //     });
+        }
+        getEx1()
+    }, [])
 
-    // }, []);
-    console.log(json);
 
     return (
         <>
             <Grid container>
-                <Grid item md={10.75}>
+                <Grid item md={10}>
                     <TextField
                         sx={{ width: '100%' }}
                         type="file"
@@ -129,24 +74,61 @@ function UploadImg() {
                     />
 
                 </Grid>
-                <Button style={AddBtn} onClick={uploadFile}> Upload</Button>
-
+                <Grid item md={2}>
+                    <LoadingButton
+                        type="submit"
+                        color="primary"
+                        style={AddBtn} onClick={uploadFile}
+                        loading={loading}
+                        variant="contained"
+                    >
+                        Upload
+                    </LoadingButton>
+                </Grid>
             </Grid>
-            {!load ? <AddProduct img={imageUrls} json={json} setJson={setJson} /> : <Grid item md={8} sx={{ width: '100%', display: 'flex', 'justifyContent': 'center', height: '400px', alignItems: 'center' }}>
-                <Loader />
 
-            </Grid>}
-            {!loading ? <Button onClick={addProduct} sx={{ textTransform: 'none', height: '3rem', marginTop: '3%', width: '100%', border: '2px solid #5DBAE8', '&:hover': { border: '2px solid #5DBAE8 !important', backgroundColor: 'white !important', color: '#5DBAE8 !important' }, ...AddBtn }} > Add Product</Button> : <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <CircularProgress sx={{ backgroundColor: '#5DBAE8', color: 'white', padding: '5px', borderRadius: '50%' }} />
-            </Box>}
+            {
+                load && json && <Grid item container rowSpacing={3} columnSpacing={3} sx={{ marginTop: '3%' }} > <Grid item md={8}>
+                    <AppWebsiteVisits
+                        title="Data Exfiltration1"
+                        subheader="bytes / IP"
+                        chartLabels={json.all_ips}
+                        chartData={[
+                            {
+                                name: 'Average Incidence Rate',
+                                type: 'column',
+                                fill: 'solid',
+                                data: json.out_byte,
+                            }
+                        ]}
+                    />
+                </Grid>
+                    <Grid item md={4}>
+                        <AppWidgetSummary title={json.response} color="warning" total='Cause' />
+                    </Grid>
+                    <Grid item xs={12} md={12} lg={12}>
+                        <AppOrderTimeline
+                            title="Protect Yourself Now"
+                            list={[...Array(5)].map((_, index) => ({
+                                title: [
+                                    'Network monitoring and traffic analysis',
+                                    'Data leak prevention (DLP) software',
+                                    'Endpoint security',
+                                    'Firewall rules and restrictions'
+                                ][index],
+                                time: ['Use network monitoring and traffic analysis tools to identify and track excessive data transfer from a single host, and investigate any suspicious activity.',
+                                    'Implement DLP software to monitor and block sensitive data from being transmitted outside the enterprise.',
+                                    'Ensure that endpoint security measures, such as anti-virus software, are in place and up-to-date on all hosts to prevent malicious data exfiltration.',
+                                    'Configure firewall rules and restrictions to limit or block excessive data transfer from a single host.'
+                                ],
+                            }))}
+                        />
+                    </Grid>
+                </Grid>
+            }
 
-            {/* <input
-                type="file"
-                onChange={(event) => {
-                    setImageUpload(event.target.files[0]);
-                }}
-            />
-            <button type="button" onClick={uploadFile}> Upload Image</button> */}
+
+
         </>
     )
 }

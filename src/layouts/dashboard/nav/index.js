@@ -13,6 +13,8 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
+import detectConfig from './detectConfig';
+
 import logo from "../../../images/logo.png"
 import { kpupContext } from '../../../context';
 // ----------------------------------------------------------------------
@@ -89,7 +91,9 @@ export default function Nav({ openNav, onCloseNav }) {
       <NavSection data={navConfig} />
       <Box sx={{ mb: 5, mx: 2.5 }}>
 
-        <Typography sx={{ fontFamily: 'Poppins', fo }}>Detect</Typography>
+        <Typography sx={{ fontFamily: 'Poppins', fontWeight: '600' }}>Detect</Typography>
+        <NavSection data={detectConfig} />
+
       </Box>
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

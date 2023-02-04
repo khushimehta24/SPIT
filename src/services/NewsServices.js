@@ -9,4 +9,9 @@ const getNews = () => {
         }
     })
 }
-export default { getNews }
+
+const ex1 = () => {
+    return httpCommon.get('https://03dc-125-99-120-242.in.ngrok.io/data-discover')
+}
+
+export default { getNews, ex1 }
