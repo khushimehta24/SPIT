@@ -79,6 +79,7 @@ function UploadImg({ list1, list2 }) {
                         onChange={(event) => {
                             setImageUpload(event.target.files[0]);
                         }}
+                        inputProps={{ accept: ".csv" }}
                     />
 
                 </Grid>
@@ -118,13 +119,15 @@ function UploadImg({ list1, list2 }) {
 
                             <Chip sx={{ marginTop: '3%' }} label={`City: ${editSinglePerson.city}`} size="small" />
                             <Chip sx={{ marginTop: '3%' }} label={`TimeZone: ${editSinglePerson.timezone}`} size="small" />
+                            <Chip sx={{ marginTop: '3%' }} label={`VPN: ${editSinglePerson.privacy.vpn}`} size='small' />
+                            <Chip sx={{ marginTop: '3%' }} label={`Proxy: ${editSinglePerson.privacy.proxy}`} size='small' />
                         </>}
 
                     </Grid>
                     <Grid item xs={12} md={12} lg={12}>
                         <AppOrderTimeline
                             title="Protect Yourself Now"
-                            list={[...Array(5)].map((_, index) => ({
+                            list={[...Array(4)].map((_, index) => ({
                                 title: list1[index],
                                 time: list2,
                             }))}
