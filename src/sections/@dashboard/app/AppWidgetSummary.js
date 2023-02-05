@@ -32,29 +32,13 @@ AppWidgetSummary.propTypes = {
 
 export default function AppWidgetSummary({ title, total, icon, color = 'primary', sx, ...other }) {
   return (
-    <Card
-      sx={{
-        py: 5,
-        px: 5,
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        boxShadow: 0,
-        textAlign: 'center',
-        color: (theme) => theme.palette[color].darker,
-        bgcolor: (theme) => theme.palette[color].lighter,
-        ...sx,
-      }}
-      {...other}
-    >
+    <>
 
-      <Typography variant="h3">{total}</Typography>
+      <Typography variant="h4">{total}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-    </Card>
+    </>
   );
 }

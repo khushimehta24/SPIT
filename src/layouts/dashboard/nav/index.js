@@ -87,8 +87,12 @@ export default function Nav({ openNav, onCloseNav }) {
           </StyledAccount>
         </Link>
       </Box>
+      <Box sx={{ mx: 2.5 }}>
 
-      <NavSection data={navConfig} />
+        <Typography sx={{ fontFamily: 'Poppins', fontWeight: '600' }}>Statistics</Typography>
+
+        <NavSection data={navConfig} />
+      </Box>
       <Box sx={{ mb: 5, mx: 2.5 }}>
 
         <Typography sx={{ fontFamily: 'Poppins', fontWeight: '600' }}>Detect</Typography>
