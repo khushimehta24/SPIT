@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Grid, TextField } from '@mui/material'
+import { Alert, Box, Button, Chip, CircularProgress, Grid, TextField } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
 import ImageUploader from 'react-image-upload'
 import { v4 as uuidv4 } from 'uuid';
@@ -21,30 +21,30 @@ import ProductServices from '../../../services/ProductServices';
 import { kpupContext } from '../../../context';
 import successHandler from '../../../helpers/successHandler';
 import { AppOrderTimeline, AppWebsiteVisits, AppWidgetSummary } from '../app';
+import AuthServices from '../../../services/AuthServices';
 
 const AddBtn = {
-    color: 'white', background: '#5DBAE8',
     fontFamily: 'Poppins', padding: '0px 2.6rem', height: '100%'
 }
-function UploadImg() {
+function UploadImg({ list1, list2 }) {
     const { token } = useContext(kpupContext)
     const [imageUpload, setImageUpload] = useState(null);
     const [imageUrls, setImageUrls] = useState([]);
-    const [editSinglePerson, setEditSinglePerson] = useState('Add');
+    const [editSinglePerson, setEditSinglePerson] = useState(null);
     const [load, setLoad] = useState(false)
     const [loading, setLoading] = useState(false)
     const [json, setJson] = useState(null)
     const imagesListRef = ref(storage, "images/");
     const uploadFile = () => {
-        setLoad(true)
+        setLoading(true)
         if (imageUpload == null) return;
         const imageRef = ref(storage, `images/${imageUpload.name} + ${uuidv4()}`);
         uploadBytes(imageRef, imageUpload).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
                 setImageUrls(url);
                 console.log(url);
-                setLoad(true)
                 setLoading(false)
+                setLoad(true)
             });
         });
     };
@@ -59,6 +59,14 @@ function UploadImg() {
         }
         getEx1()
     }, [])
+
+    const open3 = async (ip) => {
+        await AuthServices.details(ip)
+            .then((res) => {
+                console.log(res.data)
+                setEditSinglePerson(res.data)
+            })
+    }
 
 
     return (
@@ -105,22 +113,20 @@ function UploadImg() {
                 </Grid>
                     <Grid item md={4}>
                         <AppWidgetSummary title={json.response} color="warning" total='Cause' />
+                        <Alert sx={{ cursor: 'pointer' }} onClick={() => open3(json.all_ips[0])} severity="error"> Suspected IP address <strong>{json.all_ips[0]}</strong></Alert>
+                        {editSinglePerson && <>
+
+                            <Chip sx={{ marginTop: '3%' }} label={`City: ${editSinglePerson.city}`} size="small" />
+                            <Chip sx={{ marginTop: '3%' }} label={`TimeZone: ${editSinglePerson.timezone}`} size="small" />
+                        </>}
+
                     </Grid>
                     <Grid item xs={12} md={12} lg={12}>
                         <AppOrderTimeline
                             title="Protect Yourself Now"
                             list={[...Array(5)].map((_, index) => ({
-                                title: [
-                                    'Network monitoring and traffic analysis',
-                                    'Data leak prevention (DLP) software',
-                                    'Endpoint security',
-                                    'Firewall rules and restrictions'
-                                ][index],
-                                time: ['Use network monitoring and traffic analysis tools to identify and track excessive data transfer from a single host, and investigate any suspicious activity.',
-                                    'Implement DLP software to monitor and block sensitive data from being transmitted outside the enterprise.',
-                                    'Ensure that endpoint security measures, such as anti-virus software, are in place and up-to-date on all hosts to prevent malicious data exfiltration.',
-                                    'Configure firewall rules and restrictions to limit or block excessive data transfer from a single host.'
-                                ],
+                                title: list1[index],
+                                time: list2,
                             }))}
                         />
                     </Grid>

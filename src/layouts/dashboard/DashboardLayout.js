@@ -46,6 +46,12 @@ export default function DashboardLayout() {
         navigate(`/dashboard/${navigateto}`)
       },
     },
+    {
+      command: 'Search *',
+      callback: (searchSite) => {
+        window.open(`https://www.google.com/search?q=${searchSite}`)
+      },
+    },
   ]
   const {
     transcript,
