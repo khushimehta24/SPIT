@@ -12,9 +12,6 @@
 - Frontend - ReactJS  
 - ML - Python :  Sci-kit learn, Pytorch, NumPy, etc.
 
-The APIs are hosted here:
-https://03dc-125-99-120-242.in.ngrok.io
-
 ### Our Vision
 Our vision is to become a trusted software in the field of security checks, providing end users with a comprehensive analysis of their network data. Our goal is to empower users with the knowledge and understanding they need to make informed and confident security decisions. We strive to achieve this by offering a simple and user-friendly interface that provides a clear and concise overview of network security status. With our solution, users will be able to make critical decisions with ease and confidence, knowing that they have a reliable and accurate security check in place. Our commitment is to continuously improve our security checks and provide the highest level of protection for users and their data.
 
