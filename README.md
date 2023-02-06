@@ -50,6 +50,5 @@
   
   <img src="https://github.com/snega16/network-security-breach-prediction-model/blob/main/images/confusion_matrix.png">
   
-   Hence model is created using XGBoost algorithm, named ['network_security_breach_prediction_model.pkl'](https://github.com/snega16/network-security-breach-prediction-model/blob/main/model/network_security_breach_prediction_model.pkl)
-	
+   Hence model is created using XGBoost algorithm.
    
